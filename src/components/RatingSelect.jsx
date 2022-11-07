@@ -1,6 +1,7 @@
 function RatingSelect({ select, selected }) {
 
     const handleChange = (e) => {
+        console.log(+e.currentTarget.value)
         select(+e.currentTarget.value)
     }
 
