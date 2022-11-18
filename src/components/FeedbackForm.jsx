@@ -7,14 +7,14 @@ import Button from "./shared/Button"
 
 
 function FeedbackForm() {
-  const { addFeedback, feedbackEdit } = useContext(FeedbackContext)
+  const { addFeedback, feedbackEdit, updateFeedback } = useContext(FeedbackContext)
   const [text, setText] = useState('')
   const [rating, setRating] = useState(10)
   const [btnDisabled, setBtnDisabled] = useState(true)
   const [message, setMessage] = useState('')
 
   useEffect(() => {
-    if(feedbackEdit.edit) {
+    if (feedbackEdit.edit) {
       setBtnDisabled(false)
       setText(feedbackEdit.item.text)
       setRating(feedbackEdit.item.rating)
@@ -41,10 +41,13 @@ function FeedbackForm() {
       const newFeedback = {
         text, rating
       }
-      addFeedback(newFeedback)
+      if (feedbackEdit.edit) {
+        updateFeedback(feedbackEdit.item.id, newFeedback)
+      } else {
+        addFeedback(newFeedback)
+      }
       setText('')
     }
-
   }
 
   return (

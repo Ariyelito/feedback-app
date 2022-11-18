@@ -1,17 +1,22 @@
-import { useContext } from "react"
+import { useContext, useState, useEffect } from "react"
 import FeedbackContext from "../context/FeedbackContext"
 
 
-function RatingSelect({ select, selected }) {
+function RatingSelect({ select }) {
+
+    const [selected, setSelected] = useState(10)
 
     const { feedbackEdit } = useContext(FeedbackContext)
 
+    useEffect(() => {
+        setSelected(feedbackEdit.item.rating)
+    },[feedbackEdit])
+
     const handleChange = (e) => {
-        console.log(+e.currentTarget.value)
+        setSelected(+e.currentTarget.value)
         select(+e.currentTarget.value)
     }
 
-    // NOTE: simplified with iteration
     return (
         <ul className='rating'>
             {Array.from({ length: 10 }, (_, i) => (
@@ -22,7 +27,7 @@ function RatingSelect({ select, selected }) {
                         name='rating'
                         value={i + 1}
                         onChange={handleChange}
-                        checked={feedbackEdit.item.rating === i + 1}
+                        checked={selected === i + 1}
                     />
                     <label htmlFor={`num${i + 1}`}>{i + 1}</label>
                 </li>
